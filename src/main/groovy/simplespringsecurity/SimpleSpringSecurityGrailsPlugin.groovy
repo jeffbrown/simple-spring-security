@@ -16,6 +16,8 @@
 package simplespringsecurity
 
 import grails.plugins.*
+import simplespringsecurity.config.script.ScriptConfigAuthorizationManager
+import simplespringsecurity.config.script.ScriptConfigUserManager
 
 class SimpleSpringSecurityGrailsPlugin extends Plugin {
 
@@ -40,4 +42,12 @@ Grails 3 plugin for Spring Security.
     def issueManagement = [ system: "GitHub", url: "https://github.com/grails3-plugins/simple-spring-security/issues" ]
 
     def scm = [ url: "https://github.com/grails3-plugins/simple-spring-security/" ]
+
+    @Override
+    Closure doWithSpring() {
+        { ->
+            springSecurityAuthorizationManager ScriptConfigAuthorizationManager
+            springSecurityUserManager ScriptConfigUserManager
+        }
+    }
 }
