@@ -17,6 +17,7 @@ package simplespringsecurity.config.script
 
 import grails.core.GrailsApplication
 import grails.core.support.GrailsApplicationAware
+import groovy.transform.CompileStatic
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
@@ -27,6 +28,7 @@ import org.springframework.security.config.annotation.web.servlet.configuration.
  * @since 1.0
  */
 @EnableWebMvcSecurity
+@CompileStatic
 class ScriptConfigUserManager implements GrailsApplicationAware, InitializingBean {
 
     GrailsApplication grailsApplication
@@ -41,10 +43,10 @@ class ScriptConfigUserManager implements GrailsApplicationAware, InitializingBea
             def c = gcl.parseClass(resource.inputStream, resource.filename)
             Script script = (Script) c.newInstance();
             script.run();
-            Closure users = script.getProperty("users")
-            new UserBuilder(managerBuilder).build(users)
+            Object users = script.getProperty("users")
+            if (users instanceof Closure) {
+                new UserBuilder(managerBuilder).build(users)
+            }
         }
     }
 }
-
-

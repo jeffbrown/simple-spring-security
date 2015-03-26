@@ -15,6 +15,7 @@
  */
 package simplespringsecurity.config.script.inmemeory
 
+import groovy.transform.CompileStatic
 import org.springframework.security.config.annotation.authentication.configurers.provisioning.InMemoryUserDetailsManagerConfigurer
 import org.springframework.security.config.annotation.authentication.configurers.provisioning.UserDetailsManagerConfigurer
 
@@ -22,6 +23,7 @@ import org.springframework.security.config.annotation.authentication.configurers
  * @author Jeff Brown
  * @since 1.0
  */
+@CompileStatic
 class InMemoryUserBuilder {
     InMemoryUserDetailsManagerConfigurer configurer
 
@@ -30,20 +32,20 @@ class InMemoryUserBuilder {
     }
 
     void build(Closure closure) {
-        Closure c = closure.clone()
+        Closure c = (Closure)closure.clone()
         c.delegate = this
         c.resolveStrategy = Closure.DELEGATE_FIRST
         c()
     }
 
     void newUser(Map attributes) {
-        if (attributes.username) {
-            UserDetailsManagerConfigurer.UserDetailsBuilder builder = configurer.withUser(attributes.username)
-            if (attributes.password) {
-                builder.password(attributes.password)
+        if (attributes.username instanceof CharSequence) {
+            UserDetailsManagerConfigurer.UserDetailsBuilder builder = configurer.withUser(attributes.username.toString())
+            if (attributes.password instanceof CharSequence) {
+                builder.password((String)attributes.password.toString())
             }
             if (attributes.roles instanceof List) {
-                List rolesList = attributes.roles
+                List rolesList = (List)attributes.roles
                 String[] rolesArray = rolesList.toArray(new String[rolesList.size()])
                 builder.roles rolesArray
             }

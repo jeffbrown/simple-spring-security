@@ -15,17 +15,19 @@
  */
 package simplespringsecurity.config.script
 
+import groovy.transform.CompileStatic
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 
 /**
  * @author Jeff Brown
  * @since 1.0
  */
+@CompileStatic
 class SecurityBuilder {
     HttpSecurity httpSecurity
 
     void build(Closure closure) {
-        Closure c = closure.clone()
+        Closure c = (Closure)closure.clone()
         c.resolveStrategy = Closure.DELEGATE_FIRST
         c.delegate = this
         c()

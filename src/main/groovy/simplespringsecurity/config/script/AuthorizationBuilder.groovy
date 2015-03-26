@@ -15,12 +15,14 @@
  */
 package simplespringsecurity.config.script
 
+import groovy.transform.CompileStatic
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer
 
 /**
  * @author Jeff Brown
  * @since 1.0
  */
+@CompileStatic
 class AuthorizationBuilder {
     ExpressionUrlAuthorizationConfigurer.ExpressionInterceptUrlRegistry registry
 

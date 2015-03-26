@@ -17,6 +17,7 @@ package simplespringsecurity.config.script
 
 import grails.core.GrailsApplication
 import grails.core.support.GrailsApplicationAware
+import groovy.transform.CompileStatic
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 
@@ -24,6 +25,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
  * @author Jeff Brown
  * @since 1.0
  */
+@CompileStatic
 class ScriptConfigAuthorizationManager extends WebSecurityConfigurerAdapter implements GrailsApplicationAware {
 
     GrailsApplication grailsApplication
@@ -34,10 +36,12 @@ class ScriptConfigAuthorizationManager extends WebSecurityConfigurerAdapter impl
         if (resource?.exists()) {
             def gcl = new GroovyClassLoader(grailsApplication.classLoader)
             def c = gcl.parseClass(resource.inputStream, resource.filename)
-            Script script = (Script) c.newInstance();
-            script.run();
-            Closure security = script.getProperty("security")
-            new SecurityBuilder(httpSecurity: http).build(security)
+            Script script = (Script) c.newInstance()
+            script.run()
+            Object security = script.getProperty("security")
+            if(security instanceof Closure) {
+                new SecurityBuilder(httpSecurity: http).build(security)
+            }
         }
     }
 }

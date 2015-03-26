@@ -15,6 +15,7 @@
  */
 package simplespringsecurity.config.script
 
+import groovy.transform.CompileStatic
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import simplespringsecurity.config.script.inmemeory.InMemoryUserBuilder
 
@@ -22,6 +23,7 @@ import simplespringsecurity.config.script.inmemeory.InMemoryUserBuilder
  * @author Jeff Brown
  * @since 1.0
  */
+@CompileStatic
 class UserBuilder {
     AuthenticationManagerBuilder managerBuilder
 
@@ -30,7 +32,7 @@ class UserBuilder {
     }
 
     void build(Closure closure) {
-        Closure c = closure.clone()
+        Closure c = (Closure) closure.clone()
         c.delegate = this
         c.resolveStrategy = Closure.DELEGATE_FIRST
         c()
