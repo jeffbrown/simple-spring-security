@@ -25,7 +25,7 @@ import simplespringsecurity.config.script.inmemeory.InMemoryUserBuilder
  */
 @CompileStatic
 class UserBuilder {
-    AuthenticationManagerBuilder managerBuilder
+    protected AuthenticationManagerBuilder managerBuilder
 
     UserBuilder(AuthenticationManagerBuilder managerBuilder) {
         this.managerBuilder = managerBuilder

@@ -24,7 +24,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
  */
 @CompileStatic
 class SecurityBuilder {
-    HttpSecurity httpSecurity
+    protected HttpSecurity httpSecurity
+
+    SecurityBuilder(HttpSecurity security) {
+        httpSecurity = security
+    }
 
     void build(Closure closure) {
         Closure c = (Closure)closure.clone()
@@ -34,7 +38,7 @@ class SecurityBuilder {
     }
 
     void authorize(Closure c) {
-        c.delegate = new AuthorizationBuilder(registry: httpSecurity.authorizeRequests())
+        c.delegate = new AuthorizationBuilder(httpSecurity.authorizeRequests())
         c()
     }
 

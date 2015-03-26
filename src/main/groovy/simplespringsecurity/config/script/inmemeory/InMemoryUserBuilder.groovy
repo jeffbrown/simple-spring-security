@@ -25,7 +25,7 @@ import org.springframework.security.config.annotation.authentication.configurers
  */
 @CompileStatic
 class InMemoryUserBuilder {
-    InMemoryUserDetailsManagerConfigurer configurer
+    protected InMemoryUserDetailsManagerConfigurer configurer
 
     InMemoryUserBuilder(InMemoryUserDetailsManagerConfigurer configurer) {
         this.configurer = configurer

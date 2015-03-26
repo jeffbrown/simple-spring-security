@@ -40,7 +40,7 @@ class ScriptConfigAuthorizationManager extends WebSecurityConfigurerAdapter impl
             script.run()
             Object security = script.getProperty("security")
             if(security instanceof Closure) {
-                new SecurityBuilder(httpSecurity: http).build(security)
+                new SecurityBuilder(http).build(security)
             }
         }
     }

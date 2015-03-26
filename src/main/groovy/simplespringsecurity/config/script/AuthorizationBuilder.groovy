@@ -24,7 +24,11 @@ import org.springframework.security.config.annotation.web.configurers.Expression
  */
 @CompileStatic
 class AuthorizationBuilder {
-    ExpressionUrlAuthorizationConfigurer.ExpressionInterceptUrlRegistry registry
+    protected ExpressionUrlAuthorizationConfigurer.ExpressionInterceptUrlRegistry registry
+
+    AuthorizationBuilder(ExpressionUrlAuthorizationConfigurer.ExpressionInterceptUrlRegistry registry) {
+        this.registry = registry
+    }
 
     void authenticated(String... paths) {
         registry.antMatchers(paths).authenticated()
